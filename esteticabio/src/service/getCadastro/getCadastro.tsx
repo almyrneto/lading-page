@@ -40,10 +40,30 @@ export const getCadastro = async (
                 empresa,
             },
         })
+        console.debug('Dados antes do envio para a API:', {
+            ACAO,
+            contato,
+            hash,
+            email,
+            observacao,
+            cep,
+            logradouro,
+            numero,
+            complemento,
+            bairro,
+            uf,
+            municipio,
+            caixaPostal,
+            telefone,
+            cdTelefoneTipo,
+            empresa,
+        });
         if (result.status === 200) {
+            console.debug('Resposta da API:', result.data);
             return { message: 'sucesso' }
         }
     } catch (error) {
+        console.error('Erro ao chamar a API:', error);
         return { message: 'algo de errado aconteceu' }
     }
 }

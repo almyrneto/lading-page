@@ -28,14 +28,14 @@ export const UseCadastro = () => {
     const [uf, setUf] = useState('')
     const [complemento, setComplemento] = useState('')
     const [profissao, setProfissao] = useState<OptionType[]>([])
-    const [categoria, setCategoria] = useState<OptionType[]>([])
+    const [cdcategoria, setCdCategoria] = useState("199")
     const [obs, setObs] = useState('')
     const [selectedOptionsProfissao, setSelectedOptionsProfissao] = useState<OptionType | ''>('');
     const [selectedOptionsCategoria, setSelectedOptionsCategoria] = useState<OptionType | ''>('');
     const obsProfissaoCategoria =
-        `Profissão: ${typeof selectedOptionsProfissao === 'object' ? selectedOptionsProfissao.label : ''} \n `
-        + `Categoria: ${typeof selectedOptionsCategoria === 'object' ? selectedOptionsCategoria.label : ''} \n `
-        + `Observação: ${obs} \n `;
+        `Profissão: ${typeof selectedOptionsProfissao === 'object' ? selectedOptionsProfissao.label : ''}\n`
+        + `Cateogia: 199\n`
+        + `Observação: ${obs}\n`;
     const acao = 'criarLeadWebServiceByLandingPage'
     const hash = '12345'
     const caixaPostal = ''
@@ -44,12 +44,14 @@ export const UseCadastro = () => {
     const observacao = obsProfissaoCategoria
 
     const cadastrar = async () => {
+        const observacaoFormatada = observacao.replace(/\n/g, '\n');
+
         const result = await getCadastro(
             acao,
             nome,
             hash,
             email,
-            observacao,
+            observacaoFormatada,
             cep,
             logradouro,
             numero,
@@ -70,24 +72,9 @@ export const UseCadastro = () => {
         }
     }
 
-    const fetchCategoria = async (): Promise<OptionType | any> => {
-        try {
-            const result = await axios.get('https://esteticabio.w3erp.com.br/w3erp/pub/WS?hash=12345&&chave=categoria')
-            const response = result.data
-
-            const parse = new DOMParser()
-            const xml = parse.parseFromString(response, 'text/xml')
-            const categorias = xml.querySelectorAll('categoria')
-
-            const categoriasOptions: OptionType<{ value: string; label: string }>[] = Array.from(categorias).map((categoria) => ({
-                value: categoria.querySelector('codigo')?.textContent || '',
-                label: categoria.querySelector('nome')?.textContent || '',
-            }));
-            return categoriasOptions
-        } catch (error) {
-            alert(error)
-        }
-    }
+    useEffect(() => {
+        setCdCategoria("199")
+    }, []);
 
     const fetchProfissao = async (): Promise<OptionProfissaoType | any> => {
         try {
@@ -110,9 +97,6 @@ export const UseCadastro = () => {
     }
 
     useEffect(() => {
-        fetchCategoria().then((categoriasOptions) => {
-            setCategoria(categoriasOptions)
-        })
         fetchProfissao().then((profissaoOptions) => {
             setProfissao(profissaoOptions)
         })
@@ -309,9 +293,8 @@ export const UseCadastro = () => {
         complemento,
         setComplemento,
         setProfissao,
-        setCategoria,
         profissao,
-        categoria,
+        cdcategoria,
         obs,
         setObs,
         handleSubmitNext,

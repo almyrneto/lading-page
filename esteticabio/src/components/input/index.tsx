@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { InputStyle } from "./styled"
+import { EndInputStyle, InputStyle } from "./styled"
 import { colors } from "../../theme"
 
 type InputProps = {
@@ -10,6 +10,15 @@ type InputProps = {
     background?: boolean
     value?: string
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+    isFocused?: boolean
+    autoFill?: string
+}
+
+type TextInputProps = {
+    placeholder: string
+    desabilitar?: boolean
+    value?: string
+    onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void
     isFocused?: boolean
     autoFill?: string
 }
@@ -47,9 +56,32 @@ export const Input = ({
                 onChange={onChange}
                 style={{
                     borderColor: isFocused ? colors.verdePrincipal : colors.cinza1,
+                    whiteSpace: "pre-wrap",
+                    resize: "vertical",
                 }}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
+                autoComplete={autoFill ? 'off' : 'on'}
+            />
+
+        </>
+    )
+}
+
+export const EndInput = ({
+    placeholder,
+    value,
+    onChange,
+    autoFill,
+    desabilitar
+}: TextInputProps) => {
+    return (
+        <>
+            <EndInputStyle
+                placeholder={placeholder}
+                disabled={desabilitar}
+                value={value}
+                onChange={onChange}
                 autoComplete={autoFill ? 'off' : 'on'}
             />
         </>

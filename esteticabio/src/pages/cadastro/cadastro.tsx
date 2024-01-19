@@ -1,9 +1,8 @@
 import Logo from '../../assets/icons/Logo'
-import Banner from '../../assets/img/banner.png'
 import { ButtonRegister } from '../../components/buttonRegister'
 import { ButtonsNextBack } from '../../components/buttonsNextBack'
 import { CheckBox } from '../../components/checkBox'
-import { CepInput, Input } from '../../components/input'
+import { CepInput, EndInput, Input } from '../../components/input'
 import { Subtitulo } from '../../components/subtitulo'
 import {
     Container,
@@ -61,18 +60,13 @@ export const Cadastro = () => {
         handleCepChange,
         cadastrar,
         handleChangeProfissao,
-        handleChangeCategoria,
         selectedOptionsProfissao,
-        selectedOptionsCategoria,
         profissao,
-        categoria,
+        cdcategoria
     } = UseCadastro()
 
     return (
         <Container>
-            <div>
-                <img src={Banner} alt='Banner principal da pagina' />
-            </div>
             {showRegister &&
                 <Container2>
                     <ContainerRegister>
@@ -155,12 +149,9 @@ export const Cadastro = () => {
                                 <Asterisco />
                             </Container3>
                         </ContainerInput>
-                        <Input
+                        <EndInput
                             placeholder='Endereço'
-                            type='text'
                             desabilitar
-                            background
-                            width='400px'
                             value={endereço}
                             onChange={(e) => { setEndereço(e.target.value); }}
                             autoFill={enderecoAutoPreenchido}
@@ -224,12 +215,7 @@ export const Cadastro = () => {
                             options={profissao}
                             onChange={handleChangeProfissao}
                         />
-                        <InputSelect
-                            placeholder='Categoria'
-                            value={selectedOptionsCategoria ? { label: selectedOptionsCategoria.label, value: selectedOptionsCategoria.value } : null}
-                            options={categoria}
-                            onChange={handleChangeCategoria}
-                        />
+                        <input type='hidden' name='cdcategoria' value={cdcategoria} />
                         <Textarea placeholder='Observação' value={obs} onChange={event => setObs(event.target.value)} />
                         <ButtonRegister name='Cadastrar-se' onClick={() => { handleSubmitRegister(), cadastrar() }} />
                     </ContainerRegister>
