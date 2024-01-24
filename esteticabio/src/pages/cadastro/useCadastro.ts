@@ -38,9 +38,9 @@ export const UseCadastro = () => {
         + `Observação: ${obs}\n`;
     const acao = 'criarLeadWebServiceByLandingPage'
     const hash = '12345'
-    const caixaPostal = ''
+    const caixaPostal = '98765'
     const cdTelefoneTipo = '1'
-    const empresa = ''
+    const empresa = 'esteticaBio'
     const observacao = obsProfissaoCategoria
 
     const cadastrar = async () => {
@@ -206,10 +206,11 @@ export const UseCadastro = () => {
 
                 const enderecoCompleto = `${logradouro}, ${bairro}, ${localidade}, ${uf}`
                 setLogradouro(logradouro)
-                setMunicipio(municipio)
+                setMunicipio(localidade)
                 setBairro(bairro)
                 setUf(uf)
                 setEnderecoAutoPreenchido(enderecoCompleto)
+                console.log(localidade)
 
                 setEndereço(enderecoCompleto)
             } catch (error) {

@@ -233,7 +233,6 @@ export const Cadastro = () => {
                     </ContainerRegister>
                 </Container2>
             }
-
         </Container>
     )
 }
