@@ -43,12 +43,12 @@ export const Cadastro = () => {
         setTelefone,
         endereço,
         setEndereço,
-        cep,
+        enderecocep,
         setCep,
-        numero,
+        endereconumero,
         setNumero,
         enderecoAutoPreenchido,
-        complemento,
+        enderecocomplemento,
         setComplemento,
         obs,
         setObs,
@@ -162,7 +162,7 @@ export const Cadastro = () => {
                                     placeholder='CEP'
                                     type='text'
                                     width='200px'
-                                    value={cep}
+                                    value={enderecocep}
                                     onChange={(e) => { setCep(e.target.value); handleCepChange(e) }}
                                 />
                                 <Container3>
@@ -174,7 +174,7 @@ export const Cadastro = () => {
                                     placeholder='Nº'
                                     type='text'
                                     width='178px'
-                                    value={numero}
+                                    value={endereconumero}
                                     onChange={(e) => { setNumero(e.target.value); }}
                                 />
                                 <Container3>
@@ -187,7 +187,7 @@ export const Cadastro = () => {
                                 placeholder='Complemento'
                                 type='text'
                                 width='400px'
-                                value={complemento}
+                                value={enderecocomplemento}
                                 onChange={(e) => { setComplemento(e.target.value); }}
                             />
                             <Container3>

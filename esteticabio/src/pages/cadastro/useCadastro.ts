@@ -18,29 +18,35 @@ export const UseCadastro = () => {
     const [email, setEmail] = useState('')
     const [telefone, setTelefone] = useState('')
     const [endereço, setEndereço] = useState('')
-    const [cep, setCep] = useState('')
-    const [numero, setNumero] = useState('')
+    const [enderecocep, setCep] = useState('')
+    const [endereconumero, setNumero] = useState('')
     const [formCompleted, setFormCompleted] = useState(false)
     const [enderecoAutoPreenchido, setEnderecoAutoPreenchido] = useState('')
-    const [logradouro, setLogradouro] = useState('')
-    const [bairro, setBairro] = useState('')
-    const [municipio, setMunicipio] = useState('')
-    const [uf, setUf] = useState('')
-    const [complemento, setComplemento] = useState('')
+    const [enderecologradouro, setLogradouro] = useState('')
+    const [enderecobairro, setBairro] = useState('')
+    const [enderecomunicipio, setMunicipio] = useState('')
+    const [enderecouf, setUf] = useState('')
+    const [enderecocomplemento, setComplemento] = useState('')
     const [profissao, setProfissao] = useState<OptionType[]>([])
     const [cdcategoria, setCdCategoria] = useState("199")
     const [obs, setObs] = useState('')
     const [selectedOptionsProfissao, setSelectedOptionsProfissao] = useState<OptionType | ''>('');
     const [selectedOptionsCategoria, setSelectedOptionsCategoria] = useState<OptionType | ''>('');
+    const sexo = '';
+    const razaosocial = '';
+    const inscricaoestadual = '';
+    const inscricaomunicipal = '';
+    const site = '';
+    const nomecontato = '';
+    const telefonecontato = '';
+    const celularcontato = '';
+    const celular = '';
     const obsProfissaoCategoria =
         `Profissão: ${typeof selectedOptionsProfissao === 'object' ? selectedOptionsProfissao.label : ''}\n`
         + `Cateogia: 199\n`
         + `Observação: ${obs}\n`;
-    const acao = 'criarLeadWebServiceByLandingPage'
+    const acao = 'criarCliente'
     const hash = '12345'
-    const caixaPostal = '98765'
-    const cdTelefoneTipo = '1'
-    const empresa = 'esteticaBio'
     const observacao = obsProfissaoCategoria
 
     const cadastrar = async () => {
@@ -48,27 +54,35 @@ export const UseCadastro = () => {
 
         const result = await getCadastro(
             acao,
-            nome,
             hash,
             email,
             observacaoFormatada,
-            cep,
-            logradouro,
-            numero,
-            complemento,
-            bairro,
-            uf,
-            municipio,
-            caixaPostal,
+            enderecocep,
+            enderecologradouro,
+            endereconumero,
+            enderecocomplemento,
+            enderecobairro,
+            enderecouf,
+            enderecomunicipio,
             telefone,
-            cdTelefoneTipo,
-            empresa,
+            cpf,
+            cnpj,
+            sexo,
+            razaosocial,
+            inscricaomunicipal,
+            inscricaoestadual,
+            site,
+            nomecontato,
+            telefonecontato,
+            celularcontato,
+            celular,
+            nome,
         )
 
         if (result?.message) {
             alert(result.message)
         } else {
-            alert('cadastro efetuado com sucesso')
+
         }
     }
 
@@ -103,18 +117,17 @@ export const UseCadastro = () => {
     }, [])
 
     const validateForm = () => {
-        const isCpfValid = isPessoaFisicaChecked && validateCpf(cpf);
-        const isCnpjValid = isPessoaJuridicaChecked && validateCnpj(cnpj)
-        const isEmailValid = validateEmail(email)
+        const isCpfValid = isPessoaFisicaChecked && cpf;
+        const isCnpjValid = isPessoaJuridicaChecked && cnpj;
+        const isEmailValid = email
 
         if (
             ((isPessoaFisicaChecked && isCpfValid) ||
                 (isPessoaJuridicaChecked && isCnpjValid)) &&
             isEmailValid &&
             telefone &&
-            endereço &&
-            cep &&
-            numero &&
+            enderecocep &&
+            endereconumero &&
             nome
         ) {
             setFormCompleted(true)
@@ -126,71 +139,8 @@ export const UseCadastro = () => {
         }
     }
 
-    const validateEmail = (email: string): boolean => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email)
-    }
 
-    const validateCpf = (cpf: string): boolean => {
-        const cleanCpf = cpf.replace(/\D/g, '')
 
-        if (cleanCpf.length !== 11) {
-            return false
-        }
-
-        if (/^(\d)\1+$/.test(cleanCpf)) {
-            return false;
-        }
-
-        let sum = 0
-        for (let i = 0; i < 9; i++) {
-            sum += parseInt(cleanCpf.charAt(i)) * (10 - i)
-        }
-
-        let remainder = sum % 11
-        const digit1 = remainder < 2 ? 0 : 11 - remainder
-
-        sum = 0;
-        for (let i = 0; i < 10; i++) {
-            sum += parseInt(cleanCpf.charAt(i)) * (11 - i)
-        }
-
-        remainder = sum % 11;
-        const digit2 = remainder < 2 ? 0 : 11 - remainder;
-
-        return digit1 === parseInt(cleanCpf.charAt(9)) && digit2 === parseInt(cleanCpf.charAt(10))
-
-    }
-
-    const validateCnpj = (cnpj: string): boolean => {
-        const cleanCnpj = cnpj.replace(/\D/g, '');
-
-        if (cleanCnpj.length !== 14) {
-            return false;
-        }
-
-        let sum = 0;
-        let factor = 5;
-        for (let i = 0; i < 12; i++) {
-            sum += parseInt(cleanCnpj.charAt(i)) * factor;
-            factor = factor === 2 ? 9 : factor - 1;
-        }
-
-        let remainder = sum % 11;
-        const digit1 = remainder < 2 ? 0 : 11 - remainder;
-
-        sum = 0;
-        factor = 6;
-        for (let i = 0; i < 13; i++) {
-            sum += parseInt(cleanCnpj.charAt(i)) * factor;
-            factor = factor === 2 ? 9 : factor - 1;
-        }
-
-        remainder = sum % 11;
-        const digit2 = remainder < 2 ? 0 : 11 - remainder;
-
-        return digit1 === parseInt(cleanCnpj.charAt(12)) && digit2 === parseInt(cleanCnpj.charAt(13));
-    };
 
     const handleCepChange = async (e: ChangeEvent<HTMLInputElement>) => {
         const cepValue = e.target.value
@@ -210,8 +160,6 @@ export const UseCadastro = () => {
                 setBairro(bairro)
                 setUf(uf)
                 setEnderecoAutoPreenchido(enderecoCompleto)
-                console.log(localidade)
-
                 setEndereço(enderecoCompleto)
             } catch (error) {
                 console.error('Erro ao buscar endereço:', error)
@@ -283,15 +231,15 @@ export const UseCadastro = () => {
         setTelefone,
         endereço,
         setEndereço,
-        cep,
+        enderecocep,
         setCep,
-        numero,
+        endereconumero,
         setNumero,
         formCompleted,
         setFormCompleted,
         enderecoAutoPreenchido,
         setEnderecoAutoPreenchido,
-        complemento,
+        enderecocomplemento,
         setComplemento,
         setProfissao,
         profissao,
