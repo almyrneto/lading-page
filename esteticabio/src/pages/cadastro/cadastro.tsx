@@ -190,9 +190,6 @@ export const Cadastro = () => {
                                 value={enderecocomplemento}
                                 onChange={(e) => { setComplemento(e.target.value); }}
                             />
-                            <Container3>
-                                <Asterisco />
-                            </Container3>
                         </ContainerInput>
                     </ContainerRegister>
                     <ButtonsNextBack
