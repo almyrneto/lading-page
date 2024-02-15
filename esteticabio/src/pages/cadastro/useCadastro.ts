@@ -28,10 +28,9 @@ export const UseCadastro = () => {
     const [enderecouf, setUf] = useState('')
     const [enderecocomplemento, setComplemento] = useState('')
     const [profissao, setProfissao] = useState<OptionType[]>([])
-    const [cdcategoria, setCdCategoria] = useState("199")
+    const cdcategoria = 199
     const [obs, setObs] = useState('')
     const [selectedOptionsProfissao, setSelectedOptionsProfissao] = useState<OptionType | ''>('');
-    const [selectedOptionsCategoria, setSelectedOptionsCategoria] = useState<OptionType | ''>('');
     const sexo = '';
     const razaosocial = '';
     const inscricaoestadual = '';
@@ -41,22 +40,18 @@ export const UseCadastro = () => {
     const telefonecontato = '';
     const celularcontato = '';
     const celular = '';
-    const obsProfissaoCategoria =
-        `Profissão: ${typeof selectedOptionsProfissao === 'object' ? selectedOptionsProfissao.label : ''}\n`
-        + `Cateogia: 199\n`
-        + `Observação: ${obs}\n`;
+    const cdclienteprofissao = typeof selectedOptionsProfissao === 'object' ? selectedOptionsProfissao.value : ''
     const acao = 'criarCliente'
     const hash = '12345'
-    const observacao = obsProfissaoCategoria
+
+    console.log(parseInt(cdclienteprofissao))
 
     const cadastrar = async () => {
-        const observacaoFormatada = observacao.replace(/\n/g, '\n');
 
         const result = await getCadastro(
             acao,
             hash,
             email,
-            observacaoFormatada,
             enderecocep,
             enderecologradouro,
             endereconumero,
@@ -77,6 +72,8 @@ export const UseCadastro = () => {
             celularcontato,
             celular,
             nome,
+            cdcategoria,
+            parseInt(cdclienteprofissao),
         )
 
         if (result?.message) {
@@ -85,10 +82,6 @@ export const UseCadastro = () => {
 
         }
     }
-
-    useEffect(() => {
-        setCdCategoria("199")
-    }, []);
 
     const fetchProfissao = async (): Promise<OptionProfissaoType | any> => {
         try {
@@ -135,7 +128,7 @@ export const UseCadastro = () => {
             setShowRegister(false)
         } else {
             setFormCompleted(false)
-            alert('todos os campos sao obrigatorios')
+            alert('todos os campos sao obrigatórios')
         }
     }
 
@@ -204,10 +197,6 @@ export const UseCadastro = () => {
         setSelectedOptionsProfissao(selected || '');
     }
 
-    const handleChangeCategoria = (selected: OptionType | null) => {
-        setSelectedOptionsCategoria(selected || '');
-    }
-
     return {
         showRegister,
         setShowRegister,
@@ -255,8 +244,6 @@ export const UseCadastro = () => {
         handleCepChange,
         cadastrar,
         handleChangeProfissao,
-        handleChangeCategoria,
         selectedOptionsProfissao,
-        selectedOptionsCategoria,
     }
 }

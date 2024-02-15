@@ -5,7 +5,6 @@ export const getCadastro = async (
     ACAO: string,
     hash: string,
     email: string,
-    observacao: string,
     enderecocep: string,
     enderecologradouro: string,
     endereconumero: string,
@@ -26,6 +25,8 @@ export const getCadastro = async (
     celularcontato: string,
     celular: string,
     nome: string,
+    cdcategoria: number,
+    cdclienteprofissao: number,
 
 ): Promise<{ message: string } | undefined> => {
     try {
@@ -34,7 +35,6 @@ export const getCadastro = async (
                 ACAO,
                 hash,
                 email,
-                observacao,
                 enderecocep,
                 enderecologradouro,
                 endereconumero,
@@ -55,13 +55,14 @@ export const getCadastro = async (
                 celularcontato,
                 celular,
                 nome,
+                cdcategoria,
+                cdclienteprofissao,
             },
         })
         console.debug('Dados antes do envio para a API:', {
             ACAO,
             hash,
             email,
-            observacao,
             enderecocep,
             enderecologradouro,
             endereconumero,
@@ -80,6 +81,8 @@ export const getCadastro = async (
             celularcontato,
             celular,
             nome,
+            cdcategoria,
+            cdclienteprofissao,
         });
         if (result.status === 200) {
             console.debug('Resposta da API:', result.data);
